@@ -12,6 +12,7 @@
     "bootstrap": "lerna bootstrap",
     "build": "node script/build.js",
     "test": "node script/test.js",
-    "publish:core": "lerna publish from-package"
+    "publish:core": "lerna publish from-package",
+    "clean": "learn clean"
   }
 }
