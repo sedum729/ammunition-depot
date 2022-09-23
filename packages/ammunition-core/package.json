@@ -25,5 +25,5 @@
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-terser": "^7.0.2"
   },
-  "gitHead": "81c0ae8c697a54825d645deaf016da7d244f0538"
+  "gitHead": "d32f2aaef0160c89e8ce6a370b7373a9a4b05649"
 }

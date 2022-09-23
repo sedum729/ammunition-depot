@@ -18,5 +18,8 @@
     "info": "lerna info",
     "update:version": "lerna version",
     "publish": "lerna publish"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
