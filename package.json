@@ -9,7 +9,9 @@
     "rollup-plugin-terser": "^7.0.2"
   },
   "scripts": {
+    "bootstrap": "lerna bootstrap",
     "build": "node script/build.js",
-    "test": "node script/test.js"
+    "test": "node script/test.js",
+    "publish:core": "lerna publish from-package"
   }
 }
