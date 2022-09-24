@@ -19,7 +19,7 @@
     "rollup-plugin-terser": "^7.0.2"
   },
   "scripts": {
-    "start": "npm run start:core && npm run start:log",
+    "start": "http-server",
     "start:core": "cd packages/ammunition-core/ && npm start",
     "start:log": "cd packages/ammunition-log/ && npm start",
     "bootstrap": "lerna bootstrap",
