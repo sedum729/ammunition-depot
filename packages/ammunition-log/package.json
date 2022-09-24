@@ -1,0 +1,29 @@
+{
+  "name": "@ammunition/log",
+  "version": "0.0.1",
+  "description": "日志插件",
+  "author": "Jin <512364579@qq.com>",
+  "homepage": "https://github.com/sedum729/magazine#readme",
+  "license": "ISC",
+  "main": "lib/bundle.js",
+  "module": "es/bundle.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sedum729/magazine.git"
+  },
+  "scripts": {
+    "start": "rollup -c -w",
+    "build": "rollup -c",
+    "release": "npm build && npm publish --registry https://registry.npmjs.org/"
+  },
+  "bugs": {
+    "url": "https://github.com/sedum729/magazine/issues"
+  }
+}

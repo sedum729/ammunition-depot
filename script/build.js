@@ -19,9 +19,15 @@ const inputOptions = {
   ]
 };
 // 输出的配置
-const outputOptions = {
+const outputUmdOptions = {
   file:  `${projectPath}/lib/index.js`,
-  format: 'esm',  // 引出的方式为es6的方式
+  format: 'umd',  // 引出的方式为es6的方式
+  name: `${args}` // 输出可引用名为package的名字
+};
+
+const outputEsOptions = {
+  file:  `${projectPath}/es/index.js`,
+  format: 'es',  // 引出的方式为es6的方式
   name: `${args}` // 输出可引用名为package的名字
 };
 
@@ -31,7 +37,8 @@ async function build() {
 
   console.log(bundle.watchFiles); // an array of file names this bundle depends on
 
-  await bundle.write(outputOptions); // outputOptions放在这里
+  await bundle.write(outputUmdOptions); // outputOptions放在这里
+  await bundle.write(outputEsOptions); // outputOptions放在这里
 }
 
 build();

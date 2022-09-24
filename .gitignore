@@ -1,0 +1,41 @@
+/coverage
+/packages/*/lib
+/packages/*/es
+/packages/*/node_modules
+/docs-dist
+node_modules
+.changelog
+.DS_Store
+.idea
+yarn.lock
+.vscode
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+dist
+dist-ssr
+*.local
+/packages/*/dist
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# locks
+pnpm-lock.yaml
+package-lock.json
+pnpm-workspace.yaml
+
+# vite https
+packages/form-designer/keys/

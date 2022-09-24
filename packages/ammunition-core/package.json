@@ -8,7 +8,8 @@
   "author": "Jin <512364579@qq.com>",
   "homepage": "",
   "license": "ISC",
-  "main": "lib/ammunition-core.js",
+  "main": "lib/bundle.js",
+  "module": "es/bundle.js",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -17,13 +18,9 @@
     "lib"
   ],
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "start": "rollup -c -w",
+    "build": "rollup -c",
+    "release": "npm build && npm publish --registry https://registry.npmjs.org/"
   },
-  "devDependencies": {
-    "rollup": "^2.79.1",
-    "rollup-plugin-babel": "^4.4.0",
-    "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-terser": "^7.0.2"
-  },
-  "gitHead": "d32f2aaef0160c89e8ce6a370b7373a9a4b05649"
+  "gitHead": "67ad27df689d9976efb43def47c81bce86c94d80"
 }
