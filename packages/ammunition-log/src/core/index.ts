@@ -1,12 +1,13 @@
 class Log {
-  private app: any;
+
+  config: any;
 
   constructor(logConfig?: any) {
-    console.log('logConfig>>', logConfig);
+    this.config = logConfig;
   }
 
-  start() {
-    console.log(this.app)
+  start(ctx: any) {
+    console.log('获取到参数>>', ctx, this.config);
   }
 };
 
