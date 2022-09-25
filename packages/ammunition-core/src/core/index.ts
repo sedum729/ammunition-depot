@@ -7,7 +7,8 @@ export interface IAmmunitionCoreConfigs {
 export interface IAmmunitionCore {
   init: (config: IAmmunitionCoreConfigs) => void;
   registerPlugin: (plugin: any) => void;
-  plugins?: Array<any>; 
+  plugins?: Array<any>;
+  [pluginPowerName: string]: any;
 }
 
 let __start__ = false;

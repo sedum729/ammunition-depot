@@ -10,7 +10,6 @@ const proxyPlugins: IproxyPlugins = function(targetClass) {
 
   targetClass.prototype.plugins = new Proxy(plugins, {
     set: (target: IPlugin | any, attr, value) => {
-
       runPlugins.call(targetClass.prototype, target);
 
       return target[attr] = value;

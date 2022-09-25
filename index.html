@@ -19,7 +19,20 @@
       ],
     };
 
-    const ammunitionFrame = new Ammunition(configs);
+    const app = new Ammunition(configs);
+
+    const log = app.LogModule.log;
+    const getLogHistory = app.LogModule.getLogHistory;
+
+    
+    log('111');
+
+    console.log(getLogHistory());
+
+    log('111');
+
+    console.log(getLogHistory());
+
   </script>
 </body>
 </html>

@@ -1,6 +1,12 @@
 import { IAmmunitionCore } from '../core';
 
+export interface IPluginStart {
+  registerAbility: (abName: string, ability: any) => boolean;
+}
+
 export interface IPlugin {
+  config?: any;
+  name: string;
   start: (ctx: IAmmunitionCore) => void;
   __init__?: boolean;
 }
@@ -23,13 +29,40 @@ class PluginManager implements IPluginManager {
   }
 
   run() {
-    const startTask = this.pluginInstance.start;
+    const pluginStart = this.pluginInstance.start;
 
-    if (startTask && typeof startTask === 'function') {
+    if (pluginStart && typeof pluginStart === 'function') {
+      const pluginStore = this.registerPluginStore();
 
-      startTask.call(this.pluginInstance, this.ctx);
+      pluginStart.call(this.pluginInstance, {
+        registerAbility: this.registerAbility.bind(pluginStore),
+      });
 
       this.pluginInstance.__init__ = true;
+    }
+  }
+
+  registerPluginStore() {
+    const pluginName = this.pluginInstance.name || '';
+  
+    if (pluginName) {
+      const pluginStore = new Proxy({}, {
+        set: (target, attr, value) => {
+          return target[attr] = value;
+        }
+      });
+
+      this.ctx[pluginName] = pluginStore;
+
+      return pluginStore;
+    }
+
+    return {};
+  };
+
+  registerAbility(abName: string, ability: any) {
+    if (abName && ability) {
+      this[abName] = ability;
     }
   }
 };
