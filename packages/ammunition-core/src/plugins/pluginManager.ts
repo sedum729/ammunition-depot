@@ -47,7 +47,6 @@ class PluginManager implements IPluginManager {
   }
 
   getPluginsAbility(pluginName: string) {
-    console.log('get>>>', pluginName, this.pluginMap);
     return this.pluginMap.get(pluginName);
   }
 
