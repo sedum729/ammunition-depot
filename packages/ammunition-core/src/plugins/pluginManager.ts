@@ -21,8 +21,11 @@ class PluginManager implements IPluginManager {
 
   ctx: IAmmunitionCore;
 
+  pluginMap: Map<string, any> = new Map();
+
   constructor(plugin: IPlugin, ctx: IAmmunitionCore) {
     this.pluginInstance = plugin;
+
     this.ctx = ctx;
 
     this.run();
@@ -36,10 +39,16 @@ class PluginManager implements IPluginManager {
 
       pluginStart.call(this.pluginInstance, {
         registerAbility: this.registerAbility.bind(pluginStore),
+        getPluginsAbility: this.getPluginsAbility.bind(this),
       });
 
       this.pluginInstance.__init__ = true;
     }
+  }
+
+  getPluginsAbility(pluginName: string) {
+    console.log('get>>>', pluginName, this.pluginMap);
+    return this.pluginMap.get(pluginName);
   }
 
   registerPluginStore() {
@@ -53,6 +62,8 @@ class PluginManager implements IPluginManager {
       });
 
       this.ctx[pluginName] = pluginStore;
+
+      this.pluginMap.set(pluginName, pluginStore);
 
       return pluginStore;
     }

@@ -9,11 +9,12 @@
 <body>
   <script type="module">
     import Ammunition from './packages/ammunition-core/lib/bundle.js';
-    // import AmmunitionLogPlugin from './packages/ammunition-log/lib/bundle.js';
+    import AmmunitionLogPlugin from './packages/ammunition-log/lib/bundle.js';
     import AmmunitionSunflowerPlugin from './packages/ammunition-sunflower/lib/bundle.js';
     
     const configs = {
       plugins: [
+        new AmmunitionLogPlugin(),
         new AmmunitionSunflowerPlugin(),
       ],
     };

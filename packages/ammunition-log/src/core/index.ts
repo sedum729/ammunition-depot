@@ -24,7 +24,7 @@ class Log {
   start(ctx: any) {
     ctx.registerAbility('log', this.genPrintFun.call(this, EnumInfoPrefix.Log));
     ctx.registerAbility('warn', this.genPrintFun.call(this, EnumInfoPrefix.Warn));
-    ctx.registerAbility('Error', this.genPrintFun.call(this, EnumInfoPrefix.Error));
+    ctx.registerAbility('error', this.genPrintFun.call(this, EnumInfoPrefix.Error));
     ctx.registerAbility('getLogHistory', this.getLogHistory.bind(this));
   }
 
