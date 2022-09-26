@@ -1,4 +1,8 @@
-const logInfoPrefix = `Ammunition Error:`;
+enum EnumInfoPrefix {
+  Log = '[Ammunition Info]:',
+  Warn = '[Ammunition Error]:',
+  Error = '[Ammunition Error]:',
+}
 
 interface IlogStore {
   [logTime: string]: string
@@ -18,32 +22,34 @@ class Log {
   }
 
   start(ctx: any) {
-    ctx.registerAbility('log', this.log.bind(this));
+    ctx.registerAbility('log', this.genPrintFun.call(this, EnumInfoPrefix.Log));
+    ctx.registerAbility('warn', this.genPrintFun.call(this, EnumInfoPrefix.Warn));
+    ctx.registerAbility('Error', this.genPrintFun.call(this, EnumInfoPrefix.Error));
     ctx.registerAbility('getLogHistory', this.getLogHistory.bind(this));
   }
 
-  log(logInfo: any, logCode: string) {
-    Promise.resolve();
+  genPrintFun(prefix: string) {
+    return (logInfo: any, logCode: string) => {
+      let printInfo = prefix;
 
-    let printInfo = logInfoPrefix;
+      if (logCode) {
+        printInfo += ` [${logCode}]`;
+      }
 
-    if (logCode) {
-      printInfo += ` [${logCode}]`;
-    }
+      if (logInfo) {
+        printInfo += ` ${logInfo}`;
+      }
 
-    if (logInfo) {
-      printInfo += ` ${logInfo}`;
-    }
+      if (printInfo !== prefix) {
+        const curTime = `${new Date}`;
 
-    if (printInfo !== logInfoPrefix) {
-      const curTime = `${new Date}`;
+        console.error(printInfo);
 
-      console.error(printInfo);
-
-      this.setLogHistory({
-        logTime: curTime,
-        logInfo: printInfo
-      });
+        this.setLogHistory({
+          logTime: curTime,
+          logInfo: printInfo
+        });
+      }
     }
   }
 

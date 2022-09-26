@@ -22,6 +22,7 @@
     "start": "http-server",
     "start:core": "cd packages/ammunition-core/ && npm start",
     "start:log": "cd packages/ammunition-log/ && npm start",
+    "start:sunflower": "cd packages/ammunition-sunflower/ && npm start",
     "bootstrap": "lerna bootstrap",
     "build": "node script/build.js",
     "build:core": "node script/build.js ammunition-core",

@@ -9,29 +9,28 @@
 <body>
   <script type="module">
     import Ammunition from './packages/ammunition-core/lib/bundle.js';
-    import AmmunitionLogPlugin from './packages/ammunition-log/lib/bundle.js';
+    // import AmmunitionLogPlugin from './packages/ammunition-log/lib/bundle.js';
+    import AmmunitionSunflowerPlugin from './packages/ammunition-sunflower/lib/bundle.js';
     
     const configs = {
       plugins: [
-        new AmmunitionLogPlugin({
-          open: true
-        }),
+        new AmmunitionSunflowerPlugin(),
       ],
     };
 
     const app = new Ammunition(configs);
 
-    const log = app.LogModule.log;
-    const getLogHistory = app.LogModule.getLogHistory;
+    // const log = app.LogModule.log;
+    // const getLogHistory = app.LogModule.getLogHistory;
 
     
-    log('111');
+    // log('111');
 
-    console.log(getLogHistory());
+    // console.log(getLogHistory());
 
-    log('111');
+    // log('111');
 
-    console.log(getLogHistory());
+    // console.log(getLogHistory());
 
   </script>
 </body>
