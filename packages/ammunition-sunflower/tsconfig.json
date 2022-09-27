@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "moduleResolution": "node",
+    "jsx": "preserve",
+    "allowJs": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "declaration": true,
+    "skipLibCheck": true,
+    "noImplicitAny": false,
+    "paths": {
+      "core": ["./src/core"],
+      "constant": ["./src/constant"],
+      "isolation": ["./src/isolation"],
+      "log": ["./src/log"],
+      "toolkit": ["./src/toolkit"],
+      "store": ["./src/store"]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "**/node_modules",
+    "dist",
+    "example",
+    "**/rollup.config.js",
+    "**/*.spec.ts",
+    "examples",
+    "**/lib",
+    "**/scripts"
+  ]
+}

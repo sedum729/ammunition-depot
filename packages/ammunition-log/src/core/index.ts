@@ -10,7 +10,6 @@ interface IlogStore {
 
 const logStore: IlogStore = {};
 
-
 class Log {
 
   config: any;
@@ -22,9 +21,9 @@ class Log {
   }
 
   prepare(ctx: any) {
-    ctx.registerAbility('log', this.genPrintFun.call(this, EnumInfoPrefix.Log));
-    ctx.registerAbility('warn', this.genPrintFun.call(this, EnumInfoPrefix.Warn));
-    ctx.registerAbility('error', this.genPrintFun.call(this, EnumInfoPrefix.Error));
+    ctx.registerAbility('log', this.log.bind(this));
+    ctx.registerAbility('warn', this.warn.bind(this));
+    ctx.registerAbility('error', this.error.bind(this));
     ctx.registerAbility('getLogHistory', this.getLogHistory.bind(this));
   }
 
@@ -32,7 +31,19 @@ class Log {
     
   }
 
-  genPrintFun(prefix: string) {
+  log() {
+    return this.genPrintFun.call(this, EnumInfoPrefix.Log, 'log');
+  }
+
+  warn() {
+    return this.genPrintFun.call(this, EnumInfoPrefix.Warn, 'warn');
+  }
+
+  error() {
+    return this.genPrintFun.call(this, EnumInfoPrefix.Error, 'error');
+  }
+
+  genPrintFun(prefix: string, printName: string) {
     return (logInfo: any, logCode: string) => {
       let printInfo = prefix;
 
@@ -47,7 +58,7 @@ class Log {
       if (printInfo !== prefix) {
         const curTime = `${new Date}`;
 
-        console.error(printInfo);
+        console[printName || 'log'](printInfo);
 
         this.setLogHistory({
           logTime: curTime,

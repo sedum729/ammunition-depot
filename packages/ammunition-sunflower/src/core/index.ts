@@ -1,10 +1,12 @@
-import { EnumApplication } from '../constant';
+import { EnumApplication, EnumMessage } from 'constant';
 
-import { SunFlowerApp } from '../isolation';
+import { SunFlowerApp } from 'isolation';
 
-import { isSupport } from '../toolkit';
+import { isSupport } from 'toolkit';
 
-import storeManager, { IStore } from '../store';
+import storeManager, { IStore } from 'store';
+
+import { warn } from 'log';
 
 class SunFlower {
   storeManager: IStore = storeManager;
@@ -21,6 +23,7 @@ class SunFlower {
     this.ctx = ctx;
 
     if (!isSupport) {
+      warn(EnumMessage.NotSupport);
       return;
     }
 
