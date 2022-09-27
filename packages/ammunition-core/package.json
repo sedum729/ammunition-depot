@@ -23,4 +23,7 @@
     "release": "npm build && npm publish --registry https://registry.npmjs.org/"
   },
   "gitHead": "67ad27df689d9976efb43def47c81bce86c94d80",
+  "publishConfig": {
+    "access": "public"
+  }
 }

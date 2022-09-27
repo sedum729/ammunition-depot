@@ -25,5 +25,8 @@
   },
   "bugs": {
     "url": "https://github.com/sedum729/magazine/issues"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
