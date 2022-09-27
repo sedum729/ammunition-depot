@@ -11,7 +11,7 @@ class SunFlower {
 
   ctx;
 
-  name = 'sunflower';
+  name = 'SunflowerModule';
 
   prepare(ctx) {
     
@@ -24,18 +24,11 @@ class SunFlower {
       return;
     }
 
-    this.getPrinter();
-
     this.init();
   }
 
   init() {
     this.defineWebComponent();
-  }
-
-  getPrinter() {
-    const LogModule = this.ctx.getPluginsAbility('LogModule');
-    console.log('this.ctx>>>>', LogModule);
   }
 
   // 定义webComponent

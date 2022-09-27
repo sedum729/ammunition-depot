@@ -18,12 +18,13 @@ interface IPluginManager {
   run: () => void;
 }
 
-const pluginMap: Map<string, any> = new Map();
 class PluginManager implements IPluginManager {
 
   pluginInstance: IPlugin;
 
   ctx: IAmmunitionCore;
+
+  pluginStore;
 
   constructor(plugin: IPlugin, ctx: IAmmunitionCore) {
     this.pluginInstance = plugin;
@@ -34,6 +35,7 @@ class PluginManager implements IPluginManager {
   }
 
   run() {
+    this.registerPluginStore();
 
     this.performPrepare();
     
@@ -46,54 +48,49 @@ class PluginManager implements IPluginManager {
 
     if (isFunction(pluginPrepare)) {
       pluginPrepare.call(this.pluginInstance, {
-        registerAbility: this.registerAbility.bind(pluginPrepare),
-        getPluginsAbility: this.getPluginsAbility.bind(this),
+        registerAbility: this.registerAbility.bind(this.pluginStore),
       });
     }
   }
 
   // 执行启动钩子
-  performStart() {
+  async performStart() {
+    await Promise.resolve();
+
     const pluginStart = this.pluginInstance.start;
 
     if (isFunction(pluginStart)) {
       pluginStart.call(this.pluginInstance, {
-        getPluginsAbility: this.getPluginsAbility.bind(this),
+        getPluginsAbility: this.getPluginsAbility.bind(this.ctx),
       });
 
       this.pluginInstance.__init__ = true;
     }
   }
 
-  getPluginsAbility(pluginName: string) {
-    return pluginMap.get(pluginName);
-  }
-
   registerPluginStore() {
-    const pluginName = this.pluginInstance.name || '';
-  
+    const pluginName = this.pluginInstance.name || 'DefaultModule';
+
     if (pluginName) {
-      const pluginStore = new Proxy({}, {
+      this.ctx[pluginName] = new Proxy({}, {
         set: (target, attr, value) => {
           return target[attr] = value;
         }
       });
 
-      this.ctx[pluginName] = pluginStore;
-
-      pluginMap.set(pluginName, pluginStore);
-
-      return pluginStore;
+      this.pluginStore = this.ctx[pluginName];
     }
-
-    return {};
   };
 
   registerAbility(abName: string, ability: any) {
     if (abName && ability) {
       this[abName] = ability;
     }
-  }
+  };
+
+  getPluginsAbility(pluginName: string) {
+    return this[pluginName];
+  };
 };
 
 export default PluginManager;
