@@ -2,7 +2,7 @@
   "name": "@ammunition/log",
   "version": "0.1.0",
   "description": "日志插件",
-  "author": "Jin <512364579@qq.com>",
+  "author": "yanjin <yx_syj@126.com>",
   "homepage": "https://github.com/sedum729/magazine#readme",
   "license": "ISC",
   "main": "lib/bundle.js",
