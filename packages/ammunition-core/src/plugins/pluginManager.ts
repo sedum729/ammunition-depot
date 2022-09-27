@@ -1,5 +1,7 @@
 import { IAmmunitionCore } from '../core';
 
+import { isFunction } from 'utils';
+
 export interface IPluginStart {
   registerAbility: (abName: string, ability: any) => boolean;
 }
@@ -7,6 +9,7 @@ export interface IPluginStart {
 export interface IPlugin {
   config?: any;
   name: string;
+  prepare: (ctx: IAmmunitionCore) => void;
   start: (ctx: IAmmunitionCore) => void;
   __init__?: boolean;
 }
@@ -15,13 +18,12 @@ interface IPluginManager {
   run: () => void;
 }
 
+const pluginMap: Map<string, any> = new Map();
 class PluginManager implements IPluginManager {
 
   pluginInstance: IPlugin;
 
   ctx: IAmmunitionCore;
-
-  pluginMap: Map<string, any> = new Map();
 
   constructor(plugin: IPlugin, ctx: IAmmunitionCore) {
     this.pluginInstance = plugin;
@@ -32,13 +34,30 @@ class PluginManager implements IPluginManager {
   }
 
   run() {
+
+    this.performPrepare();
+    
+    this.performStart();
+  }
+  
+  // 执行准备钩子
+  performPrepare() {
+    const pluginPrepare = this.pluginInstance.prepare;
+
+    if (isFunction(pluginPrepare)) {
+      pluginPrepare.call(this.pluginInstance, {
+        registerAbility: this.registerAbility.bind(pluginPrepare),
+        getPluginsAbility: this.getPluginsAbility.bind(this),
+      });
+    }
+  }
+
+  // 执行启动钩子
+  performStart() {
     const pluginStart = this.pluginInstance.start;
 
-    if (pluginStart && typeof pluginStart === 'function') {
-      const pluginStore = this.registerPluginStore();
-
+    if (isFunction(pluginStart)) {
       pluginStart.call(this.pluginInstance, {
-        registerAbility: this.registerAbility.bind(pluginStore),
         getPluginsAbility: this.getPluginsAbility.bind(this),
       });
 
@@ -47,7 +66,7 @@ class PluginManager implements IPluginManager {
   }
 
   getPluginsAbility(pluginName: string) {
-    return this.pluginMap.get(pluginName);
+    return pluginMap.get(pluginName);
   }
 
   registerPluginStore() {
@@ -62,7 +81,7 @@ class PluginManager implements IPluginManager {
 
       this.ctx[pluginName] = pluginStore;
 
-      this.pluginMap.set(pluginName, pluginStore);
+      pluginMap.set(pluginName, pluginStore);
 
       return pluginStore;
     }

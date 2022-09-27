@@ -21,11 +21,15 @@ class Log {
     this.config = logConfig;
   }
 
-  start(ctx: any) {
+  prepare(ctx: any) {
     ctx.registerAbility('log', this.genPrintFun.call(this, EnumInfoPrefix.Log));
     ctx.registerAbility('warn', this.genPrintFun.call(this, EnumInfoPrefix.Warn));
     ctx.registerAbility('error', this.genPrintFun.call(this, EnumInfoPrefix.Error));
     ctx.registerAbility('getLogHistory', this.getLogHistory.bind(this));
+  }
+
+  start(ctx: any) {
+    
   }
 
   genPrintFun(prefix: string) {

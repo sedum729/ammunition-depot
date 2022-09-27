@@ -12,6 +12,11 @@
     "declaration": true,
     "skipLibCheck": true,
     "noImplicitAny": false,
+    "paths": {
+      "core": ["./src/core"],
+      "plugins": ["./src/plugins"],
+      "utils": ["./src/utils"],
+    }
   },
   "exclude": [
     "node_modules",

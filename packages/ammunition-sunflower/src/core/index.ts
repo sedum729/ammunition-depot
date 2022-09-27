@@ -11,14 +11,20 @@ class SunFlower {
 
   ctx;
 
+  name = 'sunflower';
+
+  prepare(ctx) {
+    
+  }
+
   start(ctx) {
     this.ctx = ctx;
-
-    this.getPrinter();
 
     if (!isSupport) {
       return;
     }
+
+    this.getPrinter();
 
     this.init();
   }
@@ -28,8 +34,8 @@ class SunFlower {
   }
 
   getPrinter() {
-    const allFn = this.ctx.getPluginsAbility('LogModule');
-    console.log('this.ctx>>>>', this.ctx);
+    const LogModule = this.ctx.getPluginsAbility('LogModule');
+    console.log('this.ctx>>>>', LogModule);
   }
 
   // 定义webComponent

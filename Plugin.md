@@ -1,0 +1,4 @@
+- plugin
+  - name 必填
+  - prepare 非必填 前置钩子
+  - start 必填 启动钩子
