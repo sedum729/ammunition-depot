@@ -14,11 +14,13 @@
     "noImplicitAny": false,
     "paths": {
       "core": ["./src/core"],
+      "core/*": ["./src/core/*"],
       "constant": ["./src/constant"],
       "isolation": ["./src/isolation"],
       "log": ["./src/log"],
       "toolkit": ["./src/toolkit"],
-      "store": ["./src/store"]
+      "store": ["./src/store"],
+      "dashboard": ["./src/dashboard"],
     }
   },
   "exclude": [

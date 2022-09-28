@@ -6,6 +6,8 @@ import { isSupport } from 'toolkit';
 
 import storeManager, { IStore } from 'store';
 
+import { startEngine } from 'dashboard';
+
 import { warn } from 'log';
 
 class SunFlower {
@@ -16,7 +18,7 @@ class SunFlower {
   name = 'SunflowerModule';
 
   prepare(ctx) {
-    
+    ctx.registerAbility('startEngine', startEngine);
   }
 
   start(ctx) {
@@ -24,7 +26,6 @@ class SunFlower {
 
     if (!isSupport) {
       warn(EnumMessage.NotSupport);
-      return;
     }
 
     this.init();

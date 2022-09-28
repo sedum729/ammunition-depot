@@ -1,5 +1,14 @@
+import { cacheOptions } from 'constant';
+
+import App from 'core/app';
+
+type TypeSandboxCacheMap = Map<String, {
+  app?: App;
+  options?: cacheOptions;
+}>;
+
 export interface IStore {
-  sandboxCacheMap: Map<any, any>;
+  sandboxCacheMap: TypeSandboxCacheMap;
 
   getInstanceById: (appId: string) => any;
 }
@@ -11,9 +20,15 @@ class Store implements IStore {
 
   // 通过id获取应用实例
   getInstanceById(appId: string) {
-    const appInstance = this.sandboxCacheMap.get(appId);
+    const appInstanceInfoField = this.sandboxCacheMap.get(appId);
 
-    return appInstance?.app;
+    return appInstanceInfoField?.app || {};
+  }
+
+  getOptionsById(appId: string) {
+    const appInstanceInfoField = this.sandboxCacheMap.get(appId);
+
+    return appInstanceInfoField?.options || {};
   }
 }
 

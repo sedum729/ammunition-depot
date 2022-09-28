@@ -15,6 +15,7 @@ const isolationPath = path.resolve(process.cwd(), './src/isolation/index.ts');
 const storePath = path.resolve(process.cwd(), './src/store/index.ts');
 const toolkitPath = path.resolve(process.cwd(), './src/toolkit/index.ts');
 const logPath = path.resolve(process.cwd(), './src/log/index.ts');
+const dashboardPath = path.resolve(process.cwd(), './src/dashboard/index.ts');
 
 export default {
   input: entryPath, // 入口文件
@@ -45,6 +46,7 @@ export default {
         { find: 'store', replacement: storePath },
         { find: 'toolkit', replacement: toolkitPath },
         { find: 'log', replacement: logPath },
+        { find: 'dashboard', replacement: dashboardPath },
       ]
     }),
     terser(),
