@@ -21,6 +21,7 @@
       "toolkit": ["./src/toolkit"],
       "store": ["./src/store"],
       "dashboard": ["./src/dashboard"],
+      "plugin": ["./src/plugin"],
     }
   },
   "exclude": [

@@ -10,7 +10,11 @@ type TypeSandboxCacheMap = Map<String, {
 export interface IStore {
   sandboxCacheMap: TypeSandboxCacheMap;
 
-  getInstanceById: (appId: string) => any;
+  getInstanceByName: (appName: string) => App;
+
+  hasCacheByName: (appName: string) => boolean;
+
+  getOptionsByName: (appName: string) => cacheOptions;
 }
 
 class Store implements IStore {
@@ -18,15 +22,18 @@ class Store implements IStore {
   // 存储所有应用实例
   sandboxCacheMap = new Map();
 
-  // 通过id获取应用实例
-  getInstanceById(appId: string) {
-    const appInstanceInfoField = this.sandboxCacheMap.get(appId);
+  hasCacheByName(appName: string) {
+    return this.sandboxCacheMap.has(appName);
+  }
+
+  getInstanceByName(appName: string) {
+    const appInstanceInfoField = this.sandboxCacheMap.get(appName);
 
     return appInstanceInfoField?.app || {};
   }
 
-  getOptionsById(appId: string) {
-    const appInstanceInfoField = this.sandboxCacheMap.get(appId);
+  getOptionsByName(appName: string) {
+    const appInstanceInfoField = this.sandboxCacheMap.get(appName);
 
     return appInstanceInfoField?.options || {};
   }
