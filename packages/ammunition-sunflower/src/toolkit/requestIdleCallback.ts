@@ -1,0 +1,1 @@
+export const requestIdleCallback = (window as any).requestIdleCallback || ((cb: Function) => setTimeout(cb));

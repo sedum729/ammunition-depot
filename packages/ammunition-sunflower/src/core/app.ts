@@ -1,5 +1,25 @@
+import {
+  isString,
+  ScriptResultList,
+  getAbsolutePath
+} from 'toolkit';
 
-import { plugin, lifecycles } from 'constant';
+import {
+  plugin,
+  lifecycles
+} from 'constant';
+
+interface IActiveOptions {
+  url: string;
+  sync?: boolean;
+  prefix?: { [kye: string]: string };
+  template?: string;
+  el?: string | HTMLElement;
+  props?: { [kye: string]: string }
+  alive?: boolean;
+  fetch?: (requestInfo: RequestInfo, init?: RequestInit) => Promise<Response>;
+  replaceCode?: (code: string) => string;
+}
 
 export default class App {
   public id: string;
@@ -24,9 +44,9 @@ export default class App {
   /** 子应用的template */
   public template: string;
   /** 子应用代码替换钩子 */
-  public replace: (code: string) => string;
+  public replaceCode: (code: string) => string;
   /** 子应用自定义fetch */
-  public fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>;
+  public fetch: (requestInfo: RequestInfo, init?: RequestInit) => Promise<Response>;
   /** 子应用的生命周期 */
   public lifecycles: lifecycles;
   /** 子应用的插件 */
@@ -64,6 +84,75 @@ export default class App {
     Node,
     Array<{ type: string; handler: EventListenerOrEventListenerObject; options: any }>
   > = new WeakMap();
+
+  public provide: {
+    shadowRoot?: ShadowRoot | undefined;
+    props?: { [x: string]: any } | undefined;
+    location?: Object;
+  };
+
+  /**
+   * 激活子应用
+   * - 同步路由
+   * - 修改iframe fetch
+   * - 生成隔离层
+   * - 注入应用
+   * @date 2022-09-30
+   * @returns {any}
+   */
+  public async activeApp(activeOptions: IActiveOptions) {
+    const { sync, url, el, template, props, alive, prefix, fetch, replaceCode } = activeOptions;
+
+    this.url = url;
+    this.sync = sync;
+    this.alive = alive;
+    this.hrefFlag = false;
+    this.prefix = prefix ?? this.prefix;
+    this.replaceCode = replaceCode ?? this.replaceCode;
+    this.provide.props = props ?? this.provide.props;
+
+    await this.iframeReady;
+
+    const iframeWindow = this.iframe.contentWindow;
+
+    const ifarmeFetch = fetch
+      ? (requestInfo: RequestInfo, init?: RequestInit) => {
+        const isNeedFullPath = isString(requestInfo);
+
+        const nextRequestInfo = isNeedFullPath ? getAbsolutePath(requestInfo as string, (this.proxyLocation as Location).href) : requestInfo;
+
+        return fetch(nextRequestInfo, init);
+      }
+      : this.fetch;
+
+    if (ifarmeFetch) {
+      iframeWindow.fetch = ifarmeFetch;
+
+      this.fetch = ifarmeFetch;
+    }
+  }
+
+  public async start(getExternalScripts: () => ScriptResultList) {
+
+  }
+
+  /**
+   * 销毁应用
+   * @date 2022-09-30
+   * @returns {any}
+   */
+  public async destroy() {
+
+  }
+
+  /**
+   * 卸载应用
+   * @date 2022-09-30
+   * @returns {any}
+   */
+  public async unmount() {
+
+  }
 
   // /** $wujie对象，提供给子应用的接口 */
   // public provide: {

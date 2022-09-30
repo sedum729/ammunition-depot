@@ -10,6 +10,12 @@ type TypeSandboxCacheMap = Map<String, {
 export interface IStore {
   sandboxCacheMap: TypeSandboxCacheMap;
 
+  scriptCache: any;
+
+  styleCache: any;
+
+  embedHTMLCache: any;
+
   getInstanceByName: (appName: string) => App;
 
   hasCacheByName: (appName: string) => boolean;
@@ -21,6 +27,12 @@ class Store implements IStore {
 
   // 存储所有应用实例
   sandboxCacheMap = new Map();
+
+  scriptCache = {};
+
+  styleCache = {};
+
+  embedHTMLCache = {};
 
   hasCacheByName(appName: string) {
     return this.sandboxCacheMap.has(appName);
@@ -36,6 +48,10 @@ class Store implements IStore {
     const appInstanceInfoField = this.sandboxCacheMap.get(appName);
 
     return appInstanceInfoField?.options || {};
+  }
+
+  setEmbedHTMLCache(url: string, cacheData) {
+    this.embedHTMLCache[url] = cacheData;
   }
 }
 

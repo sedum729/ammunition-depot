@@ -6,7 +6,7 @@ export function mergeOptions(options: cacheOptions, cacheOptions: cacheOptions) 
     el: options.el || cacheOptions?.el,
     url: options.url || cacheOptions?.url,
     exec: options.exec !== undefined ? options.exec : cacheOptions?.exec,
-    replace: options.replaceCode || cacheOptions?.replaceCode,
+    replaceCode: options.replaceCode || cacheOptions?.replaceCode,
     fetch: options.fetch || cacheOptions?.fetch,
     props: options.props || cacheOptions?.props,
     sync: options.sync !== undefined ? options.sync : cacheOptions?.sync,
