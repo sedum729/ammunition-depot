@@ -1,4 +1,4 @@
-import { EnumApplication, EnumMessage } from 'constant';
+import { EnumApplication, EnumMessage, startOptions, cacheOptions, preHeatOptions } from 'constant';
 
 import { SunFlowerApp } from 'isolation';
 
@@ -6,7 +6,7 @@ import { isSupport } from 'toolkit';
 
 import storeManager, { IStore } from 'store';
 
-import { startEngine } from 'dashboard';
+import { setupEngine, preHeatEngine, startEngine, diversionEngine, shutDownEngine } from 'dashboard';
 
 import { warn } from 'log';
 
@@ -16,6 +16,11 @@ class SunFlower {
   ctx;
 
   name = 'SunflowerModule';
+
+  startApp: (options: startOptions) => Promise<void>;
+  setupApp: (options: cacheOptions) => void;
+  preloadApp: (preHeatOptions: preHeatOptions) => void;
+  destoryApp: (appName: string) => void;
 
   prepare(ctx) {
     ctx.registerAbility('startEngine', startEngine);
@@ -37,14 +42,22 @@ class SunFlower {
       return;
     }
 
-    this.init();
+    this.__init();
+
+    this.setupApp = setupEngine;
+    this.startApp = startEngine;
+    this.preloadApp = preHeatEngine;
+    this.destoryApp = shutDownEngine;
   }
 
-  init() {
+  __init() {
+    // 劫持路由
+    diversionEngine.hrefHijacker();
+
+    // 定义webComponent
     this.defineWebComponent();
   }
 
-  // 定义webComponent
   defineWebComponent() {
     const isDefined = customElements.get(EnumApplication.Name);
 

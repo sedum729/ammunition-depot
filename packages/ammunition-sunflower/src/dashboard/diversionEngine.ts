@@ -4,7 +4,7 @@ import { renderElementToContainer, renderIframeReplaceApp, getDegradeIframe, cle
 
 import { anchorElementGenerator, getAnchorElementQueryMap, isArray, rawDocumentQuerySelector, rawDecodeURIComponent, genIframe } from 'toolkit';
 
-export const hrefHijacker = () => {
+const hrefHijacker = () => {
   window.addEventListener('popstate', () => {
     const urlObject = anchorElementGenerator(window.location.href);
     const queryMap = getAnchorElementQueryMap(urlObject);
@@ -62,4 +62,8 @@ export const hrefHijacker = () => {
       }
     }
   });
+};
+
+export const diversionEngine = {
+  hrefHijacker
 };
