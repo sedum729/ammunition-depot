@@ -6,8 +6,15 @@ import {
 
 import {
   plugin,
-  lifecycles
+  lifecycles,
+  basicOptions
 } from 'constant';
+
+import store, { Store } from 'store';
+
+import {
+  isSupport
+} from 'toolkit';
 
 interface IActiveOptions {
   url: string;
@@ -90,6 +97,40 @@ export default class App {
     props?: { [x: string]: any } | undefined;
     location?: Object;
   };
+
+  public inject: {
+    nameToInstanceMap: Store;
+    appEventMap: {};
+    mainHostPath: string;
+  };
+
+  constructor(options: Pick<basicOptions, 'name' | 'url' | 'attrs' | 'fiber' | 'degrade' | 'plugins'> & { lifecycles: lifecycles }) {
+
+    // 传递 inject 给嵌套子应用
+    if (window.__SUNFLOWER_EXIST__) {
+      this.inject = window.__SUNFLOWER__.inject;
+    } else {
+      this.inject = {
+        nameToInstanceMap: store,
+        appEventMap: {},
+        mainHostPath: window.location.protocol + "//" + window.location.host,
+      }
+    }
+
+    const { name, url, attrs, fiber, degrade, lifecycles, plugins } = options;
+
+    this.id = name;
+    this.fiber = fiber;
+    this.degrade = degrade || !isSupport;
+    // this.bus = new EventBus(this.id);
+    this.url = url;
+    // this.provide = { bus: this.bus };
+    this.styleSheetElements = [];
+    this.execQueue = [];
+    this.lifecycles = lifecycles;
+    // this.plugins = getPlugins(plugins);
+
+  }
 
   /**
    * 激活子应用

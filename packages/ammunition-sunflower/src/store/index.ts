@@ -23,7 +23,7 @@ export interface IStore {
   getOptionsByName: (appName: string) => cacheOptions;
 }
 
-class Store implements IStore {
+export class Store implements IStore {
 
   // 存储所有应用实例
   sandboxCacheMap = new Map();

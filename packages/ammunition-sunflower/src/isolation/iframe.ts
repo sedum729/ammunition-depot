@@ -6,8 +6,8 @@ import { EnumPrivateAttr } from 'constant';
 
 declare global {
   interface Window {
-    // 是否存在无界
-    __POWERED_BY_WUJIE__?: boolean;
+    // 是否存在向日葵
+    __SUNFLOWER_EXIST__?: boolean;
     // 子应用公共加载路径
     __WUJIE_PUBLIC_PATH__: string;
     // 原生的querySelector
