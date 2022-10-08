@@ -24,3 +24,9 @@ export * from './fetchAssets';
 export * from './isMatchUrl';
 
 export * from './importHTML';
+
+export * from './getCurRoutePath';
+
+export * from './getEmbedHTML';
+
+export * from './processCssLoader';

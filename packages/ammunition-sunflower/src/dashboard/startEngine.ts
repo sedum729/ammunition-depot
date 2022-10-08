@@ -1,17 +1,20 @@
+import { isFunction } from 'toolkit';
+
 import store from 'store';
 
 import { startOptions } from 'constant';
 
 import {
   mergeOptions,
-  importHTML
+  importHTML,
+  processCssLoader
 } from 'toolkit';
 
 import { getPlugins } from 'plugin';
 
 import App from 'core/app';
 
-const successorTask = async (appName: string, options: startOptions) => {
+const successorTask = async (appName: string, options: startOptions, effectiveOptions: startOptions) => {
   const isHasCache = store.hasCacheByName(appName);
 
   if (!isHasCache) return false;
@@ -19,10 +22,6 @@ const successorTask = async (appName: string, options: startOptions) => {
   const appInstance: App = store.getInstanceByName(appName);
 
   if (!appInstance) return false;
-
-  const cacheOptions = store.getOptionsByName(appName);
-
-  const effectiveOptions = mergeOptions(options, cacheOptions);
 
   const { plugins, lifecycles, fiber, alive, url, sync, prefix, el, props, fetch, replaceCode } = effectiveOptions;
 
@@ -55,27 +54,64 @@ const successorTask = async (appName: string, options: startOptions) => {
     appInstance.lifecycles?.activated?.(iframeWindow);
 
     return appInstance.destroy;
-  }
-
-  if (iframeWindow.__MOUNTER__) {
+  } else if (iframeWindow.__MOUNTER__ && isFunction(iframeWindow.__MOUNTER__)) {
     appInstance.unmount();
+
+    await appInstance.activeApp({ url, sync, prefix, el, props, alive, fetch, replaceCode });
+
+    appInstance.lifecycles.beforeMount(iframeWindow);
+
+    iframeWindow.__MOUNTER__();
+
+    appInstance.lifecycles.afterMount(iframeWindow);
+
+    appInstance.mountFlag = true;
+
+    appInstance.rebuildStyleSheets();
+
+    return appInstance.destroy;
+  } else {
+    appInstance.destroy(); 
   }
 
-  return true;
+  return false;
 };
 
-const trailblazerTask = (appName: string, options: startOptions) => {
+const trailblazerTask = async (appName: string, options: startOptions, effectiveOptions: startOptions) => {
+  const { name, url, attrs, fiber, degrade, plugins, lifecycles, sync, prefix, el, props, alive, replaceCode } = effectiveOptions;
 
+  const nextAppInstance = new App({ name, url, attrs, fiber, degrade, plugins, lifecycles });
+
+  const nextIframeWindow = nextAppInstance.iframe.contentWindow;
+
+  nextAppInstance.lifecycles?.beforeLoad?.(nextIframeWindow);
+
+  const { template, getExternalScripts, getExternalStyleSheets } = await importHTML(url, {
+    fetch: fetch || window.fetch,
+    plugins: nextAppInstance.plugins,
+    loadError: nextAppInstance.lifecycles.loadError,
+    fiber,
+  });
+
+  const processedHtml = await processCssLoader(nextAppInstance, template, getExternalStyleSheets);
+  await nextAppInstance.active({ url, sync, prefix, template: processedHtml, el, props, alive, fetch, replaceCode });
+  await nextAppInstance.start(getExternalScripts);
+  return nextAppInstance.destroy;
 };
 
-const startEngine = (options: startOptions) => {
+const startEngine = async (options: startOptions) => {
 
   const appName = options?.name;
 
-  successorTask(appName, options);
+  const cacheOptions = store.getOptionsByName(appName);
 
-  trailblazerTask(appName, options);
+  const effectiveOptions = mergeOptions(options, cacheOptions);
 
+  const taskRes = await successorTask(appName, options, effectiveOptions);
+
+  if (taskRes === false) {
+    trailblazerTask(appName, options, effectiveOptions);
+  }
 };
 
 export default startEngine;
