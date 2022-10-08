@@ -44,6 +44,10 @@ class Store implements IStore {
     return appInstanceInfoField?.app || {};
   }
 
+  setInstanceByName(appName: string, values: any) {
+    this.sandboxCacheMap.set(appName, values);
+  }
+
   getOptionsByName(appName: string) {
     const appInstanceInfoField = this.sandboxCacheMap.get(appName);
 

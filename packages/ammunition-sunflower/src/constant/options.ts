@@ -61,3 +61,7 @@ export type startOptions = {
   /** 子应用加载时loading元素 */
   loading?: HTMLElement;
 } & basicOptions;
+
+export type preHeatOptions = {
+  exec?: boolean;
+} & basicOptions;

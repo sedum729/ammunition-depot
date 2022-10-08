@@ -30,3 +30,11 @@ export * from './getCurRoutePath';
 export * from './getEmbedHTML';
 
 export * from './processCssLoader';
+
+export * from './anchorElementGenerator';
+
+export * from './getAnchorElementQueryMap';
+
+export * from './isMatchSyncQueryById';
+
+export * from './common';

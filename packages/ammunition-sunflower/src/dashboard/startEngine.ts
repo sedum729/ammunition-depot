@@ -2,7 +2,7 @@ import { isFunction } from 'toolkit';
 
 import store from 'store';
 
-import { startOptions } from 'constant';
+import { startOptions, cacheOptions } from 'constant';
 
 import {
   mergeOptions,
@@ -14,7 +14,7 @@ import { getPlugins } from 'plugin';
 
 import App from 'core/app';
 
-const successorTask = async (appName: string, options: startOptions, effectiveOptions: startOptions) => {
+const successorTask = async (appName: string, options: startOptions, effectiveOptions: cacheOptions) => {
   const isHasCache = store.hasCacheByName(appName);
 
   if (!isHasCache) return false;
@@ -77,7 +77,7 @@ const successorTask = async (appName: string, options: startOptions, effectiveOp
   return false;
 };
 
-const trailblazerTask = async (appName: string, options: startOptions, effectiveOptions: startOptions) => {
+const trailblazerTask = async (appName: string, options: startOptions, effectiveOptions: cacheOptions) => {
   const { name, url, attrs, fiber, degrade, plugins, lifecycles, sync, prefix, el, props, alive, replaceCode } = effectiveOptions;
 
   const nextAppInstance = new App({ name, url, attrs, fiber, degrade, plugins, lifecycles });

@@ -11,7 +11,7 @@ export class SunFlowerApp extends HTMLElement {
 
       const appId = this.getAttribute(EnumPrivateAttr.DataId);
 
-      const sandbox = storeManager.getInstanceById(appId);
+      const sandbox = storeManager.getInstanceByName(appId);
 
       patchElementEffect(shadowRoot, sandbox.iframe.contentWindow);
 
@@ -22,7 +22,7 @@ export class SunFlowerApp extends HTMLElement {
   disconnectedCallback(): void {
     const appId = this.getAttribute(EnumPrivateAttr.DataId);
 
-    const sandbox = storeManager.getInstanceById(appId);
+    const sandbox = storeManager.getInstanceByName(appId);
 
     sandbox?.unmount();
   }
