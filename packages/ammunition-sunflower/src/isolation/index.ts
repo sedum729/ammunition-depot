@@ -4,6 +4,10 @@ import storeManager from '../store';
 
 import { patchElementEffect } from './iframe';
 
+export * from './shadow';
+
+export * from './iframe';
+
 export class SunFlowerApp extends HTMLElement {
   connectedCallback(): void {
     if (!this.shadowRoot) {

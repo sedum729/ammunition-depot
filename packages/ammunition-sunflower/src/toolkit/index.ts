@@ -38,3 +38,7 @@ export * from './getAnchorElementQueryMap';
 export * from './isMatchSyncQueryById';
 
 export * from './common';
+
+export * from './getContainer';
+
+export * from './genIframe';

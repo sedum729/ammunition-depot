@@ -1,3 +1,9 @@
+import { renderElementToContainer } from './shadow';
+
+import { rawQuerySelector, genIframe } from 'toolkit';
+
+import { EnumPrivateAttr } from 'constant';
+
 declare global {
   interface Window {
     // 是否存在无界
@@ -12,7 +18,7 @@ declare global {
     __WUJIE_RAW_WINDOW__: Window;
     // 子应用沙盒实例
     // __WUJIE: WuJie;
-    __sunflower: any;
+    __SUNFLOWER__: any;
     // 子应用mount函数
     __WUJIE_MOUNT: () => void;
     // 子应用unmount函数
@@ -56,7 +62,7 @@ export function patchElementEffect(
 
   if (element.__patched) return;
 
-  const proxyLocation = iframeWindow?.__sunflower?.proxyLocation as Location;
+  const proxyLocation = iframeWindow?.__SUNFLOWER__?.proxyLocation as Location;
 
   const baseURI = `${proxyLocation?.protocol}//${proxyLocation?.host}${proxyLocation?.pathname}`;
 
@@ -72,4 +78,11 @@ export function patchElementEffect(
     },
     __patched: { get: () => true },
   });
-}
+};
+
+export const renderIframeReplaceApp = (src: string, element: HTMLElement) => {
+  const iframe = genIframe({ src });
+  renderElementToContainer(iframe, element)
+};
+
+export const getDegradeIframe = (id: string): HTMLIFrameElement => rawQuerySelector(`iframe[${EnumPrivateAttr.DataId}="${id}"]`);

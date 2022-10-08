@@ -28,6 +28,15 @@ class SunFlower {
       warn(EnumMessage.NotSupport);
     }
 
+    /**
+     * 中断执行
+     * 
+     * window.__SUNFLOWER__ 为true说明当前运行环境是子应用
+    */
+    if (window.__SUNFLOWER__) {
+      return;
+    }
+
     this.init();
   }
 
