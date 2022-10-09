@@ -48,3 +48,9 @@ export * from './appRouteParse';
 export * from './isCallable';
 
 export * from './locationHrefSet';
+
+export * from './getTargetValue';
+
+export * from './isBoundedFunction';
+
+export * from './isConstructable';

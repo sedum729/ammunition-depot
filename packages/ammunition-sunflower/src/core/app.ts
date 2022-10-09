@@ -24,7 +24,7 @@ import {
 
 import { getPlugins } from 'plugin';
 
-import { iframeGenerator, degradeSandbox, proxySandbox } from 'isolation';
+import { iframeGenerator, degradeSandbox, proxySandbox, } from 'isolation';
 
 interface IActiveOptions {
   url: string;
@@ -152,10 +152,22 @@ export default class App {
     
     if (this.degrade) {
       // 使用 Object.defineProperties 处理沙箱
-      const {} = degradeSandbox(iframe, urlElement, mainHostPath, appHostPath);
+      const { proxyDocument, proxyLocation } = degradeSandbox(iframe, urlElement, mainHostPath, appHostPath);
+
+      this.proxyDocument = proxyDocument;
+      this.proxyLocation = proxyLocation;
     } else {
       // 使用 Proxy 处理沙箱
+      const { proxyWindow, proxyDocument, proxyLocation } = proxySandbox(iframe, urlElement, mainHostPath, appHostPath);
+
+      this.proxy = proxyWindow;
+      this.proxyDocument = proxyDocument;
+      this.proxyLocation = proxyLocation;
     }
+
+    this.provide.location = this.proxyLocation;
+
+    store.addInstanceCacheWithApp(name, this);
   }
 
   /**

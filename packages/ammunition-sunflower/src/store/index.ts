@@ -38,6 +38,21 @@ export class Store implements IStore {
     return this.sandboxCacheMap.has(appName);
   }
 
+  addInstanceCacheWithApp(appName: string, instance: App) {
+    if (this.hasCacheByName(appName)) {
+      const prevCache = this.sandboxCacheMap.get(appName);
+
+      this.sandboxCacheMap.set(appName, {
+        ...prevCache,
+        app: instance
+      });
+    } else {
+      this.sandboxCacheMap.set(appName, {
+        app: instance
+      });
+    }
+  }
+
   getInstanceByName(appName: string) {
     const appInstanceInfoField = this.sandboxCacheMap.get(appName);
 
