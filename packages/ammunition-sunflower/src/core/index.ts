@@ -54,6 +54,12 @@ class SunFlower {
 
     // 定义webComponent
     this.defineWebComponent();
+
+    // 注册引擎
+    this.setupApp = setupEngine;
+    this.startApp = startEngine;
+    this.preloadApp = preHeatEngine;
+    this.destoryApp = shutDownEngine;
   }
 
   defineWebComponent() {
