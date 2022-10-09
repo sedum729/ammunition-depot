@@ -24,5 +24,8 @@
   },
   "bugs": {
     "url": "https://github.com/sedum729/magazine/issues"
+  },
+  "dependencies": {
+    "@ammunition/log": "^0.1.0"
   }
 }

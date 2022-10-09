@@ -1,3 +1,5 @@
+import * as logType from '../constant';
+
 enum EnumInfoPrefix {
   Log = '[Ammunition Info]:',
   Warn = '[Ammunition Error]:',
@@ -16,6 +18,8 @@ class Log {
 
   name: string = 'LogModule';
 
+  logType: Object = logType;
+
   constructor(logConfig?: any) {
     this.config = logConfig;
   }
@@ -25,6 +29,7 @@ class Log {
     ctx.registerAbility('warn', this.warn.bind(this));
     ctx.registerAbility('error', this.error.bind(this));
     ctx.registerAbility('getLogHistory', this.getLogHistory.bind(this));
+    ctx.registerAbility('logType', logType);
   }
 
   start(ctx: any) {

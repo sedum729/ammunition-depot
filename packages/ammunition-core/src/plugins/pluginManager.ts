@@ -27,7 +27,10 @@ class PluginManager implements IPluginManager {
   pluginStore;
 
   constructor(plugin: IPlugin, ctx: IAmmunitionCore) {
+    
     this.pluginInstance = plugin;
+
+    this.pluginInstance.__init__ = true;
 
     this.ctx = ctx;
 
@@ -63,8 +66,6 @@ class PluginManager implements IPluginManager {
       pluginStart.call(this.pluginInstance, {
         getPluginsAbility: this.getPluginsAbility.bind(this.ctx),
       });
-
-      this.pluginInstance.__init__ = true;
     }
   }
 

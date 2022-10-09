@@ -1,11 +1,44 @@
-class SunFlow {
+import { error, logType } from 'log';
 
-  config: any;
+import { isFunction, isAsyncFunction } from 'utils';
 
-  name: string = 'SunFlowModule';
+type routerConfigs = {
+  path: string;
+  name: string;
+  icon: string;
+  hidden?: boolean;
+  childRoutes?: Array<routerConfigs>;
+}
 
-  constructor(logConfig?: any) {
-    this.config = logConfig;
+type SunFlowConfigsType = {
+  routerConfigs: routerConfigs | (() => routerConfigs);
+};
+
+type SunFlowType = {
+  config: SunFlowConfigsType;
+  name: string;
+  prepare: (ctx: any) => void;
+  start: (ctx: any) => void;
+  init: () => void;
+};
+
+// 当前是否存在工作流
+let isSunFlowExist = false;
+
+class SunFlow implements SunFlowType {
+
+  config: SunFlowConfigsType;
+
+  name = 'SunFlowModule';
+
+  constructor(sunFlowConfigs?: SunFlowConfigsType) {
+    if (!isSunFlowExist) {
+      this.config = sunFlowConfigs;
+
+      this.init();
+
+      isSunFlowExist = true;      
+    }
   }
 
   prepare(ctx: any) {
@@ -16,7 +49,29 @@ class SunFlow {
   }
 
   start(ctx: any) {
-    
+  }
+
+  init() {
+    this.parseRouterConfigs();
+  }
+
+  async parseRouterConfigs() {
+    const routerConfigs = this.config?.routerConfigs;
+
+    let finallyRouterConfigs = routerConfigs;
+
+    if (!routerConfigs) {
+      error(`If no route configuration is obtained, the system stops working. Error code: ${logType.SystemLog.SunFlow_NoRouterConfigs}`);
+      return;
+    }
+
+    if (isFunction(routerConfigs)) {
+      finallyRouterConfigs = (routerConfigs as Function)();
+    }
+
+    if (isAsyncFunction) {
+      finallyRouterConfigs = await (routerConfigs as Function)();
+    }
   }
 };
 

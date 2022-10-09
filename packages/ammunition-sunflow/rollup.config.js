@@ -9,14 +9,9 @@ const entryPath = path.resolve(process.cwd(), './src/index.ts');
 const outputPath = path.resolve(process.cwd(), './lib/bundle.js');
 const tsConfigPath = path.resolve(process.cwd(), '../../tsconfig.json');
 
-const constantPath = path.resolve(process.cwd(), './src/constant/index.ts');
 const corePath = path.resolve(process.cwd(), './src/core');
-const isolationPath = path.resolve(process.cwd(), './src/isolation/index.ts');
-const storePath = path.resolve(process.cwd(), './src/store/index.ts');
-const toolkitPath = path.resolve(process.cwd(), './src/toolkit/index.ts');
-const logPath = path.resolve(process.cwd(), './src/log/index.ts');
-const dashboardPath = path.resolve(process.cwd(), './src/dashboard/index.ts');
-const pluginPath = path.resolve(process.cwd(), './src/plugin/index.ts');
+const logPath = path.resolve(process.cwd(), './src/log');
+const utilsPath = path.resolve(process.cwd(), './src/utils');
 
 export default {
   input: entryPath, // 入口文件
@@ -41,14 +36,9 @@ export default {
     }),
     alias({
       entries: [
-        { find: 'constant', replacement: constantPath },
         { find: 'core', replacement: corePath },
-        { find: 'isolation', replacement: isolationPath },
-        { find: 'store', replacement: storePath },
-        { find: 'toolkit', replacement: toolkitPath },
         { find: 'log', replacement: logPath },
-        { find: 'dashboard', replacement: dashboardPath },
-        { find: 'plugin', replacement: pluginPath },
+        { find: 'utils', replacement: utilsPath },
       ]
     }),
     terser(),
