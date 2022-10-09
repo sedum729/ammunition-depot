@@ -10,7 +10,7 @@ const outputPath = path.resolve(process.cwd(), './lib/bundle.js');
 const tsConfigPath = path.resolve(process.cwd(), '../../tsconfig.json');
 
 const constantPath = path.resolve(process.cwd(), './src/constant/index.ts');
-const corePath = path.resolve(process.cwd(), './src/core/index.ts');
+const corePath = path.resolve(process.cwd(), './src/core');
 const isolationPath = path.resolve(process.cwd(), './src/isolation/index.ts');
 const storePath = path.resolve(process.cwd(), './src/store/index.ts');
 const toolkitPath = path.resolve(process.cwd(), './src/toolkit/index.ts');

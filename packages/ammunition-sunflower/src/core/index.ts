@@ -23,7 +23,10 @@ class SunFlower {
   destoryApp: (appName: string) => void;
 
   prepare(ctx) {
-    ctx.registerAbility('startEngine', startEngine);
+    ctx.registerAbility('setupApp', setupEngine);
+    ctx.registerAbility('startApp', startEngine);
+    ctx.registerAbility('preloadApp', preHeatEngine);
+    ctx.registerAbility('destoryApp', shutDownEngine);
   }
 
   start(ctx) {
@@ -43,11 +46,6 @@ class SunFlower {
     }
 
     this.__init();
-
-    this.setupApp = setupEngine;
-    this.startApp = startEngine;
-    this.preloadApp = preHeatEngine;
-    this.destoryApp = shutDownEngine;
   }
 
   __init() {

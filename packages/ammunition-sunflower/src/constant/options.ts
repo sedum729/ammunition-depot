@@ -1,6 +1,6 @@
 import { plugin } from './plugin';
 
-import { lifecycle } from './lifecycle';
+import { lifecycle, loadErrorHandler } from './lifecycle';
 
 export type basicOptions = {
   /** 应用名称 */
