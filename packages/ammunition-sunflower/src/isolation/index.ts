@@ -8,6 +8,8 @@ export * from './shadow';
 
 export * from './iframe';
 
+export * from './sandbox';
+
 export class SunFlowerApp extends HTMLElement {
   connectedCallback(): void {
     if (!this.shadowRoot) {

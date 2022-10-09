@@ -42,3 +42,5 @@ export * from './common';
 export * from './getContainer';
 
 export * from './genIframe';
+
+export * from './appRouteParse';

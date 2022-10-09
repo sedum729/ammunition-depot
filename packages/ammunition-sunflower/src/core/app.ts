@@ -1,7 +1,8 @@
 import {
   isString,
   ScriptResultList,
-  getAbsolutePath
+  getAbsolutePath,
+  appRouteParse
 } from 'toolkit';
 
 import {
@@ -15,6 +16,15 @@ import store, { Store } from 'store';
 import {
   isSupport
 } from 'toolkit';
+
+import {
+  MassageEngine,
+  EventObj
+} from 'dashboard';
+
+import { getPlugins } from 'plugin';
+
+import { iframeGenerator, degradeSandbox, proxySandbox } from 'isolation';
 
 interface IActiveOptions {
   url: string;
@@ -40,8 +50,8 @@ export default class App {
   public proxyDocument: Object;
   /** location代理 */
   public proxyLocation: Object;
-  /** 事件中心 暂时不考虑事件中心 */
-  public bus: any;
+  /** 通讯渠道 */
+  public msgChannel: any;
   /** 容器 */
   public el: HTMLElement;
   /** js沙箱 */
@@ -93,6 +103,7 @@ export default class App {
   > = new WeakMap();
 
   public provide: {
+    msgChannel: EventObj
     shadowRoot?: ShadowRoot | undefined;
     props?: { [x: string]: any } | undefined;
     location?: Object;
@@ -122,14 +133,29 @@ export default class App {
     this.id = name;
     this.fiber = fiber;
     this.degrade = degrade || !isSupport;
-    // this.bus = new EventBus(this.id);
+    this.msgChannel = new MassageEngine(this.id);
     this.url = url;
-    // this.provide = { bus: this.bus };
+    this.provide = { msgChannel: this.msgChannel };
     this.styleSheetElements = [];
     this.execQueue = [];
     this.lifecycles = lifecycles;
-    // this.plugins = getPlugins(plugins);
+    this.plugins = getPlugins(plugins);
 
+    const { urlElement, appHostPath, appRoutePath } = appRouteParse(url);
+
+    const { mainHostPath } = this.inject;
+
+    // 创建iframe
+    const iframe = iframeGenerator(this, attrs, mainHostPath, appHostPath, appRoutePath);
+    this.iframe = iframe;
+
+    
+    if (this.degrade) {
+      // 使用 Object.defineProperties 处理沙箱
+      const {} = degradeSandbox(iframe, urlElement, mainHostPath, appHostPath);
+    } else {
+      // 使用 Proxy 处理沙箱
+    }
   }
 
   /**
