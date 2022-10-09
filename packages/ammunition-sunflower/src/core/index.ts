@@ -15,7 +15,7 @@ class SunFlower {
 
   ctx;
 
-  name = 'SunflowerModule';
+  name = 'SunFlowerModule';
 
   startApp: (options: startOptions) => Promise<void>;
   setupApp: (options: cacheOptions) => void;
