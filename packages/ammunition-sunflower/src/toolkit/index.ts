@@ -44,3 +44,7 @@ export * from './getContainer';
 export * from './genIframe';
 
 export * from './appRouteParse';
+
+export * from './isCallable';
+
+export * from './locationHrefSet';
