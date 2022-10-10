@@ -2,16 +2,18 @@ import { error, logType } from 'log';
 
 import { isFunction, isAsyncFunction } from 'utils';
 
-type routerConfigs = {
+import Runtime from 'runtime';
+
+export type IRouterConfigs = {
   path: string;
   name: string;
   icon: string;
   hidden?: boolean;
-  childRoutes?: Array<routerConfigs>;
+  childRoutes?: Array<IRouterConfigs>;
 }
 
 type SunFlowConfigsType = {
-  routerConfigs: routerConfigs | (() => routerConfigs);
+  routerConfigs: IRouterConfigs | (() => IRouterConfigs);
 };
 
 type SunFlowType = {
@@ -21,6 +23,9 @@ type SunFlowType = {
   start: (ctx: any) => void;
   init: () => void;
   sunFlowerApp: any;
+  routerConfigs: IRouterConfigs | null;
+  isSunFlowerAppExist: boolean;
+  isRouterConfigsExist: boolean;
 };
 
 // 当前是否存在工作流
@@ -32,12 +37,20 @@ class SunFlow implements SunFlowType {
 
   name = 'SunFlowModule';
 
-  sunFlowerApp = {};
+  sunFlowerApp = null;
+
+  routerConfigs = null;
+
+  isSunFlowerAppExist = false;
+
+  isRouterConfigsExist = false;
 
   constructor(sunFlowConfigs?: SunFlowConfigsType) {
     if (isSunFlowExist) {
       return;
     }
+
+    this.proxyWorker();
 
     this.config = sunFlowConfigs;
 
@@ -61,7 +74,7 @@ class SunFlow implements SunFlowType {
       return;
     }
 
-    this.sunFlowerApp = sunFlower;
+    this.sunFlowerApp.__ = sunFlower;
   }
 
   init() {
@@ -97,6 +110,64 @@ class SunFlow implements SunFlowType {
       } catch (errMsg) {
         error(`Failed to get route configuration. Error code: ${logType.SystemLog.SunFlow_GetRouterConfigsError}`)
       }
+    }
+
+    this.routerConfigs.__ = finallyRouterConfigs;
+  }
+
+  /**
+   * 代理路由配置以及向日葵能力
+   * @date 2022-10-10
+   * @returns {any}
+   */
+  proxyWorker() {
+    this.sunFlowerApp = new Proxy({}, {
+      set: (target, attr, value) => {
+
+        if (attr === '__') {
+          
+          if (value) {
+            this.isSunFlowerAppExist = true;
+          }
+
+          this.sunFlowerApp = value;
+
+          this.listenWorker();
+        }
+
+        return value;
+      }
+    });
+
+    this.routerConfigs = new Proxy({}, {
+      set: (target, attr, value) => {
+        if (attr === '__') {
+          
+          if (value) {
+            this.isRouterConfigsExist = true;
+          }
+
+          this.routerConfigs = value;
+
+          this.listenWorker();
+        }
+
+        return value;
+      }
+    })
+  }
+
+  /**
+   * 监听路由配置以及向日葵能力是否存在
+   * @date 2022-10-10
+   * @returns {any}
+   */
+  listenWorker() {
+    if (this.isRouterConfigsExist && this.isSunFlowerAppExist) {
+      new Runtime({
+        app: this.sunFlowerApp,
+        routerConfigs: this.routerConfigs
+      });
     }
   }
 };

@@ -17,6 +17,7 @@
       "core/*": ["./src/core/*"],
       "log": ["./src/log"],
       "utils": ["./src/utils"],
+      "runtime": ["./src/runtime"],
     }
   },
   "exclude": [
