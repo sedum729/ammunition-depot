@@ -12,6 +12,7 @@ export interface IAmmunitionCore {
 }
 
 let __start__ = false;
+
 @proxyPlugins
 class AmmunitionCore implements IAmmunitionCore {
   [x: string]: any;
