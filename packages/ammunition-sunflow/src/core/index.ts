@@ -20,6 +20,7 @@ type SunFlowType = {
   prepare: (ctx: any) => void;
   start: (ctx: any) => void;
   init: () => void;
+  sunFlowerApp: any;
 };
 
 // 当前是否存在工作流
@@ -31,14 +32,18 @@ class SunFlow implements SunFlowType {
 
   name = 'SunFlowModule';
 
+  sunFlowerApp = {};
+
   constructor(sunFlowConfigs?: SunFlowConfigsType) {
-    if (!isSunFlowExist) {
-      this.config = sunFlowConfigs;
-
-      this.init();
-
-      isSunFlowExist = true;      
+    if (isSunFlowExist) {
+      return;
     }
+
+    this.config = sunFlowConfigs;
+
+    this.init();
+
+    isSunFlowExist = true;      
   }
 
   prepare(ctx: any) {
@@ -49,12 +54,25 @@ class SunFlow implements SunFlowType {
   }
 
   start(ctx: any) {
+    const sunFlower = ctx.getPluginsAbility('SunFlowerModule');
+
+    if (!(sunFlower && Object.keys(sunFlower).length)) {
+      error(`Sunflower initialization failed. Error code: ${logType.SystemLog.SunFlow_NotGetSunFlower}`);
+      return;
+    }
+
+    this.sunFlowerApp = sunFlower;
   }
 
   init() {
     this.parseRouterConfigs();
   }
 
+  /**
+   * 解析路由配置
+   * @date 2022-10-10
+   * @returns {any}
+   */
   async parseRouterConfigs() {
     const routerConfigs = this.config?.routerConfigs;
 
@@ -66,11 +84,19 @@ class SunFlow implements SunFlowType {
     }
 
     if (isFunction(routerConfigs)) {
-      finallyRouterConfigs = (routerConfigs as Function)();
+      try {
+        finallyRouterConfigs = (routerConfigs as Function)();
+      } catch (errMsg) {
+        error(`Failed to get route configuration. Error code: ${logType.SystemLog.SunFlow_GetRouterConfigsError}`)
+      }
     }
 
     if (isAsyncFunction) {
-      finallyRouterConfigs = await (routerConfigs as Function)();
+      try {
+        finallyRouterConfigs = await (routerConfigs as Function)();
+      } catch (errMsg) {
+        error(`Failed to get route configuration. Error code: ${logType.SystemLog.SunFlow_GetRouterConfigsError}`)
+      }
     }
   }
 };
