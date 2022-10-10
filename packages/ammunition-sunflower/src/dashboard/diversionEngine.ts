@@ -4,11 +4,13 @@ import { renderElementToContainer, renderIframeReplaceApp, getDegradeIframe, cle
 
 import { anchorElementGenerator, getAnchorElementQueryMap, isArray, rawDocumentQuerySelector, rawDecodeURIComponent, genIframe } from 'toolkit';
 
-const hrefHijacker = () => {
+const popStateAlternate = () => {
   window.addEventListener('popstate', () => {
     const urlObject = anchorElementGenerator(window.location.href);
     const queryMap = getAnchorElementQueryMap(urlObject);
     const appInstanceNameList = Object.keys(queryMap);
+
+    console.log('queryMap>>>', urlObject);
 
     if (appInstanceNameList && isArray(appInstanceNameList) && appInstanceNameList.length) {
       const appInstanceList = [];
@@ -62,6 +64,18 @@ const hrefHijacker = () => {
       }
     }
   });
+};
+
+// window.history.pushState
+// window.history.replaceState;
+const pushStateAlternate = () => {};
+
+const replaceStateAlternate = () => {};
+
+const hrefHijacker = () => {
+  popStateAlternate();
+  pushStateAlternate();
+  replaceStateAlternate();
 };
 
 export const diversionEngine = {
