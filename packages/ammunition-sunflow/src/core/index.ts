@@ -4,6 +4,18 @@ import { isFunction, isAsyncFunction } from 'utils';
 
 import Runtime from 'runtime';
 
+// {
+//   createBrowserHistory,
+//   createHashHistory,
+//   createMemoryHistory
+// }
+
+import history from 'history';
+
+// const history = createMemoryHistory();
+
+console.log('22 history>>>', history);
+
 export type IRouterConfigs = {
   path: string;
   name: string;

@@ -72,10 +72,13 @@ const pushStateAlternate = () => {};
 
 const replaceStateAlternate = () => {};
 
+const hashChangeAlternate = () => {};
+
 const hrefHijacker = () => {
   popStateAlternate();
   pushStateAlternate();
   replaceStateAlternate();
+  hashChangeAlternate();
 };
 
 export const diversionEngine = {

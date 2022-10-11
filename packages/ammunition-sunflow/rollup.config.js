@@ -13,6 +13,7 @@ const corePath = path.resolve(process.cwd(), './src/core');
 const logPath = path.resolve(process.cwd(), './src/log');
 const utilsPath = path.resolve(process.cwd(), './src/utils');
 const runtimePath = path.resolve(process.cwd(), './src/runtime');
+const routerPath = path.resolve(process.cwd(), './src/router');
 
 export default {
   input: entryPath, // 入口文件
@@ -41,6 +42,7 @@ export default {
         { find: 'log', replacement: logPath },
         { find: 'utils', replacement: utilsPath },
         { find: 'runtime', replacement: runtimePath },
+        { find: 'router', replacement: routerPath },
       ]
     }),
     terser(),
