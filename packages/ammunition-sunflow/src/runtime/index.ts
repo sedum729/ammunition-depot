@@ -1,7 +1,5 @@
 import { IRouterConfigs } from 'core';
 
-console.log('history>>', history);
-
 type TypeRunTime = {
   app: any;
   routerConfigs: IRouterConfigs

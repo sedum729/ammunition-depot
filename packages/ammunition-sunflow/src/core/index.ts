@@ -13,7 +13,6 @@ import Runtime from 'runtime';
 import history from 'history';
 
 // const history = createMemoryHistory();
-
 console.log('22 history>>>', history);
 
 export type IRouterConfigs = {
