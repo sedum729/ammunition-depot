@@ -4,16 +4,6 @@ import { isFunction, isAsyncFunction } from 'utils';
 
 import Runtime from 'runtime';
 
-import { createBrowserHistory, createMemoryHistory } from 'history';
-
-console.log('history>>', createMemoryHistory());
-
-// {
-//   createBrowserHistory,
-//   createHashHistory,
-//   createMemoryHistory
-// }
-
 export type IRouterConfigs = {
   path: string;
   name: string;
