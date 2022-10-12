@@ -18,7 +18,6 @@
       "log": ["./src/log"],
       "utils": ["./src/utils"],
       "runtime": ["./src/runtime"],
-      "history": ["./src/history"],
     }
   },
   "exclude": [
