@@ -7,59 +7,6 @@
   <title>magazine</title>
 </head>
 <body>
-  <script type="module">
-    import Ammunition from './packages/ammunition-core/lib/bundle.js';
-    import AmmunitionLogPlugin from './packages/ammunition-log/lib/bundle.js';
-    import AmmunitionSunflowerPlugin from './packages/ammunition-sunflower/lib/bundle.js';
-    import AmmunitionSunflowPlugin from './packages/ammunition-sunflow/lib/bundle.js';
-
-    const routerConfigs = [
-      {
-        path: '/',
-        name: '首页',
-        icon: 'xxx.png',
-        hidden: false,
-        childRoutes: [
-          {
-            path: '/welcome',
-            name: '欢迎页',
-            icon: 'xxx.png',
-            hidden: false,
-          }
-        ]
-      }
-    ];
-    
-    const configs = {
-      plugins: [
-        new AmmunitionLogPlugin(),
-        new AmmunitionSunflowerPlugin(),
-        new AmmunitionSunflowPlugin({
-          routerConfigs: async () => {
-            return new Promise((resolve) => {
-              setTimeout(() => {
-                resolve(routerConfigs);
-              }, 1000);
-            })
-          }
-        }),
-      ],
-    };
-
-    const app = new Ammunition(configs);
-
-    // const log = app.LogModule.log;
-    // const getLogHistory = app.LogModule.getLogHistory;
-
-    
-    // log('111');
-
-    // console.log(getLogHistory());
-
-    // log('111');
-
-    // console.log(getLogHistory());
-
-  </script>
+  <script type="module" src="./src/index.js"></script>
 </body>
 </html>
