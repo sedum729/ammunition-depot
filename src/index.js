@@ -3,42 +3,50 @@ import AmmunitionLogPlugin from 'AmmunitionLogPlugin';
 import AmmunitionSunflowerPlugin from 'AmmunitionSunflowerPlugin';
 import AmmunitionSunflowPlugin from 'AmmunitionSunflowPlugin';
 
-console.log('Ammunition>>', Ammunition);
+import { startApp } from './core';
 
-const routerConfigs = [
-  {
-    path: '/',
-    name: '首页',
-    icon: 'xxx.png',
-    hidden: false,
-    childRoutes: [
-      {
-        path: '/welcome',
-        name: '欢迎页',
-        icon: 'xxx.png',
-        hidden: false,
-      }
-    ]
-  }
-];
+const app = startApp({
+  name: 'test',
+  url: 'http://localhost:5173',
+  el: document.getElementById('app')
+});
 
-const configs = {
-  plugins: [
-    new AmmunitionLogPlugin(),
-    new AmmunitionSunflowerPlugin(),
-    new AmmunitionSunflowPlugin({
-      routerConfigs: async () => {
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            resolve(routerConfigs);
-          }, 1000);
-        })
-      }
-    }),
-  ],
-};
+console.log('app>>', app);
 
-const app = new Ammunition(configs);
+// const routerConfigs = [
+//   {
+//     path: '/',
+//     name: '首页',
+//     icon: 'xxx.png',
+//     hidden: false,
+//     childRoutes: [
+//       {
+//         path: '/welcome',
+//         name: '欢迎页',
+//         icon: 'xxx.png',
+//         hidden: false,
+//       }
+//     ]
+//   }
+// ];
+
+// const configs = {
+//   plugins: [
+//     new AmmunitionLogPlugin(),
+//     new AmmunitionSunflowerPlugin(),
+//     new AmmunitionSunflowPlugin({
+//       routerConfigs: async () => {
+//         return new Promise((resolve) => {
+//           setTimeout(() => {
+//             resolve(routerConfigs);
+//           }, 1000);
+//         })
+//       }
+//     }),
+//   ],
+// };
+
+// const app = new Ammunition(configs);
 
 // const log = app.LogModule.log;
 // const getLogHistory = app.LogModule.getLogHistory;
