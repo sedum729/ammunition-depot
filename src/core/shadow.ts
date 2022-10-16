@@ -55,6 +55,10 @@ class WujieApp extends HTMLElement {
  * 定义 wujie webComponent，将shadow包裹并获得dom装载和卸载的生命周期
  */
 export function defineWujieWebComponent() {
+  /**
+   * 判断当前是否定义过 自定义元素
+   * 如果没有则进行自定义元素创建
+  */
   if (!customElements.get("wujie-app")) {
     customElements.define("wujie-app", WujieApp);
   }
